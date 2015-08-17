@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6E555E84-F2AA-4FEA-9FC7-8ADAEE8EF3FB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Saraff.VisualFoxpro.Externals</RootNamespace>
+    <AssemblyName>Saraff.VisualFoxpro.Externals</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\bcFrmSpisok.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\GetInterval.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Core\Win32.cs" />
+    <Compile Include="CustomCode\Script1.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\AxExternalForm.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\dols.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\perem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\poisk_fam.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\prikaz.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\profr.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\regrab.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\sprav.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\str.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\tabnom.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\tarif.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\udols.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\uprofr.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\usltrd.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\vnadb.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Objects\VfpApplicationParams.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Objects\VfpHostForm.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Saraff.AxHost\Saraff.AxHost.csproj">
+      <Project>{FC0BF271-3E4F-4838-9645-F01736D5DEE8}</Project>
+      <Name>Saraff.AxHost</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Saraff.VisualFoxpro\Saraff.VisualFoxpro.csproj">
+      <Project>{976E7033-A757-4BB5-8F7F-EE8C085F7123}</Project>
+      <Name>Saraff.VisualFoxpro</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
