@@ -29,7 +29,7 @@
 * PLEASE SEND EMAIL TO:  vfp@saraff.ru.
 
 DEFINE CLASS IAxHostEvents AS session
-	IMPLEMENTS IAxHostEvents IN "SARAFF.AXHOST.TLB"
+	IMPLEMENTS IAxHostEvents IN {B6A6016F-323D-49B2-91EE-D551212818A7}#1.0
 
 	PROCEDURE IAxHostEvents_FireEvent(oEventDescriptor AS VARIANT) AS VOID;
  				HELPSTRING "¬озникает в момент, когда необходимо обработать одно из событий пользовательского элемента управлени€."
