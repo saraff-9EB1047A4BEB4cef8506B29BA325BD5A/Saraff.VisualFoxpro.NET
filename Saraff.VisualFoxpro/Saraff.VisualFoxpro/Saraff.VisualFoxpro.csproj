@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Saraff.AxHost, Version=1.0.3.441, Culture=neutral, PublicKeyToken=c55b64136026b50f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Saraff.AxHost.1.0.3.441\lib\net20\Saraff.AxHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
@@ -38,13 +42,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\IProxy.cs" />
+    <Compile Include="Core\ProxyService.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Core\VfpEventHandlerProxy.cs" />
     <Compile Include="Core\Win32.cs" />
     <Compile Include="ErrorHandlerRequiredEventArgs.cs" />
+    <Compile Include="IErrorHandler.cs" />
+    <Compile Include="IoC\BindServiceAttribute.cs" />
+    <Compile Include="IoC\ServiceContainer.cs" />
+    <Compile Include="IoC\ServiceRequiredAttribute.cs" />
     <Compile Include="VfpApplicationComponent.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="VfpContainer.cs" />
     <Compile Include="VfpExternalCode.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -71,14 +81,11 @@
     <Compile Include="VfpProcessedAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Saraff.AxHost\Saraff.AxHost.csproj">
-      <Project>{FC0BF271-3E4F-4838-9645-F01736D5DEE8}</Project>
-      <Name>Saraff.AxHost</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="COPYING.LESSER.txt" />
     <Content Include="COPYING.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

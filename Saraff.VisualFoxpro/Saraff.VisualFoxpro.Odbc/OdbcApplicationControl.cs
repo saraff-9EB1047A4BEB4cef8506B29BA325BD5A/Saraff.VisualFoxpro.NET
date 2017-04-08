@@ -37,6 +37,7 @@ using Saraff.AxHost;
 namespace Saraff.VisualFoxpro.Odbc {
 
     public class OdbcApplicationControl:VfpApplicationControl {
+        private IoC.ServiceContainer _services;
 
         public OdbcApplicationControl() {
         }
@@ -63,6 +64,7 @@ namespace Saraff.VisualFoxpro.Odbc {
 
             #endregion
 
+            this._services.Bind(typeof(IVfpOdbcConnection), this.Connection);
             this.OnDataLoad(EventArgs.Empty);
         }
 
@@ -71,6 +73,11 @@ namespace Saraff.VisualFoxpro.Odbc {
                 this.Connection.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        protected override void OnServiceContainerInit(IoC.ServiceContainer container) {
+            this._services=container;
+            base.OnServiceContainerInit(container);
         }
 
         protected virtual void OnDataLoad(EventArgs e) {

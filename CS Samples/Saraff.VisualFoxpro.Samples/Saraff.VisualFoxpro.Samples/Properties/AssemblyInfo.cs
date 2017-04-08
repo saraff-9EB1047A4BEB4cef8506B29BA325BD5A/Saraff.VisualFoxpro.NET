@@ -32,6 +32,9 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Saraff.AxHost;
+using IoC=Saraff.VisualFoxpro.IoC;
+using ComponentModel=Saraff.VisualFoxpro.Samples.ComponentModel;
+using Core=Saraff.VisualFoxpro.Samples.Core;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -69,3 +72,5 @@ using Saraff.AxHost;
 [assembly: RequiredFile("Saraff.VisualFoxpro.dll")]
 [assembly: RequiredFile("Saraff.VisualFoxpro.Externals.dll")]
 [assembly: RequiredFile("Saraff.VisualFoxpro.Odbc.dll")]
+
+[assembly: IoC.BindService(typeof(ComponentModel.ISampleService),typeof(Core.SampleServiceComponent))]

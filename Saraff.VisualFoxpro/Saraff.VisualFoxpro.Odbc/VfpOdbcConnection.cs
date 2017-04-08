@@ -36,7 +36,7 @@ using System.Data.Odbc;
 
 namespace Saraff.VisualFoxpro.Odbc {
 
-    public sealed class VfpOdbcConnection:Component,IDisposable {
+    public sealed class VfpOdbcConnection:Component,IVfpOdbcConnection,IDisposable {
         private OdbcConnection _connection;
 
         public VfpOdbcConnection(string connectionString) {
@@ -84,5 +84,10 @@ namespace Saraff.VisualFoxpro.Odbc {
             get;
             private set;
         }
+    }
+
+    public interface IVfpOdbcConnection {
+
+        OdbcCommand CreateCommand();
     }
 }

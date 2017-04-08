@@ -39,21 +39,5 @@ namespace Saraff.VisualFoxpro.Odbc {
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple=false, Inherited=false)]
     public sealed class ConnectionInfoAttribute:Attribute {
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ConnectionInfoAttribute"/> class.
-        /// </summary>
-        public ConnectionInfoAttribute() {
-            this.Need=true;
-        }
-
-        /// <summary>
-        /// Возвращает или устанавливает значение указавающее на необходимость присутствия информации о подключении к СУБД.
-        /// </summary>
-        /// <value><c>true</c> if need; otherwise, <c>false</c>.</value>
-        public bool Need {
-            get;
-            set;
-        }
     }
 }

@@ -38,12 +38,14 @@ using System.Runtime.InteropServices;
 using System.Reflection;
 using System.Collections.ObjectModel;
 using System.IO;
+using Saraff.VisualFoxpro.IoC;
 
 namespace Saraff.VisualFoxpro {
 
     public class VfpApplicationControl:ApplicationControl {
         private VfpEventHandlerProxy _eventHandlerProxy;
-        private VfpContainer _container;
+        private ServiceContainer _services=new ServiceContainer();
+        private ProxyService _proxy;
 
         public VfpApplicationControl() {
 
@@ -57,18 +59,22 @@ namespace Saraff.VisualFoxpro {
 
             #endregion
 
-            this._container=new VfpContainer(this._ExternalInvokeHandler);
+            this._services.Bind(typeof(IProxy),this._proxy = new ProxyService(this._ExternalInvokeHandler));
+            this._services.Add(this._proxy);
+            this._services.Bind(typeof(IWin32Window),this);
+
             this.Externals=new Dictionary<Type, _VfpExternalComponent>();
 
             #region Добавляем требуемые внешние компоненты
 
             foreach(VfpExternalRequiredAttribute _attr in this.GetType().GetCustomAttributes(typeof(VfpExternalRequiredAttribute), false)) {
-                var _ext=Activator.CreateInstance(_attr.Type, true) as _VfpExternalComponent;
-                this._container.Add(_ext);
-                this.Externals.Add(_attr.Type, _ext);
+                this.Externals.Add(_attr.Type, this._services.CreateInstance(_attr.Type) as _VfpExternalComponent);
             }
 
             #endregion
+
+            this._services.Load(this.GetType().Assembly);
+            this.OnServiceContainerInit(this._services);
         }
 
         [ApplicationProcessed]
@@ -91,17 +97,51 @@ namespace Saraff.VisualFoxpro {
         }
 
         protected override void Dispose(bool disposing) {
-            if(disposing&&this._container!=null) {
-                this._container.Dispose();
+            if(disposing&&this._services!=null) {
+                this._services.Dispose();
             }
             base.Dispose(disposing);
         }
 
+        /// <summary>
+        /// Returns an object that represents a service provided by the System.ComponentModel.Component
+        /// or by its System.ComponentModel.Container.
+        /// </summary>
+        /// <param name="service">A service provided by the System.ComponentModel.Component.</param>
+        /// <returns>
+        /// An System.Object that represents a service provided by the System.ComponentModel.Component,
+        /// or null if the System.ComponentModel.Component does not provide the specified
+        /// service.
+        /// </returns>
+        protected override object GetService(Type service) {
+            foreach(ServiceRequiredAttribute _attr in this.GetType().GetCustomAttributes(typeof(ServiceRequiredAttribute),false)) {
+                for(var _provider = this._services as IServiceProvider; _provider != null && _attr.Service == service;) {
+                    return _provider.GetService(service);
+                }
+            }
+            return base.GetService(service);
+        }
+
         protected virtual void OnEventHandlerProxyChanged(EventArgs e) {
-            this._container.OnProxyChanged(EventArgs.Empty);
+            this._proxy.OnProxyChanged(EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Вызывается в момент инициализации IoC-контейнера.
+        /// </summary>
+        /// <param name="container">IoC-контейнер.</param>
+        protected virtual void OnServiceContainerInit(ServiceContainer container) {
         }
 
         protected void ErrorMessageBox(Exception ex) {
+            try {
+                for(var _handler = (this._services as IServiceProvider).GetService(typeof(IErrorHandler)) as IErrorHandler; _handler != null;) {
+                    _handler.Invoke(ex);
+                    return;
+                }
+            } catch(Exception _ex) {
+                System.Diagnostics.Debug.WriteLine(string.Format("{0}============={0}{В процессе обработки ошибки произошло исключение.}{0}{1}: {2}{0}{3}{0}============={0}", Environment.NewLine,_ex.GetType().Name,_ex.Message,_ex.StackTrace));
+            }
             this.OnErrorHandlerRequired(new ErrorHandlerRequiredEventArgs(ex));
         }
 

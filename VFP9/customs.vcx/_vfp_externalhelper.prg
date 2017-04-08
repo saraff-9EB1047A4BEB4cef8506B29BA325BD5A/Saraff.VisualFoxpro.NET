@@ -83,7 +83,7 @@ DEFINE CLASS _vfp_externalhelper AS custom
 						FOR i=1 TO EventDescriptor.GetParam("ArgsCount") STEP 1
 							m_args=m_args+IIF(LEN(m_args)=0,"",", ")+"EventDescriptor.GetParam('Arg"+ALLTRIM(STR(i))+"')"
 						ENDFOR
-						m_command=m_component+"."+m_method+"("+m_args+")"
+						m_command="m_result="+m_component+"."+m_method+"("+m_args+")"
 				ENDCASE
 				&m_command
 			CASE m_type="Property"

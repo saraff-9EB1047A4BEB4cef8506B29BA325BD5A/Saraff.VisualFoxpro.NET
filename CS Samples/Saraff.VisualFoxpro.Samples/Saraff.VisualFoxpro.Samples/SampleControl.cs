@@ -54,7 +54,7 @@ namespace Saraff.VisualFoxpro.Samples {
     [VfpExternalRequired(typeof(Objects.VfpApplicationParams))]
     [VfpExternalRequired(typeof(Objects.VfpHostForm))]
     [VfpExternalRequired(typeof(SampleControlExternalForm))]
-    public partial class SampleControl:OdbcApplicationControl {
+    public sealed partial class SampleControl:OdbcApplicationControl {
 
         public SampleControl() {
             InitializeComponent();
