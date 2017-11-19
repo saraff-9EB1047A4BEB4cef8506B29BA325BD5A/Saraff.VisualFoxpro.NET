@@ -37,6 +37,8 @@ using Saraff.AxHost;
 
 namespace Saraff.VisualFoxpro.Odbc {
 
+    [IoC.ServiceRequired(Service = typeof(IoC.IBinder))]
+    [IoC.ServiceRequired(Service = typeof(IoC.IInstanceFactory))]
     public class OdbcApplicationComponent:VfpApplicationComponent {
 
         public OdbcApplicationComponent() {
@@ -49,19 +51,12 @@ namespace Saraff.VisualFoxpro.Odbc {
 
             var _args=new ConnectionRequiredEventArgs();
             this.OnConnectionRequired(_args);
-            this.Connection=new VfpOdbcConnection(_args.ConnectionString);
+            this._Binder.Bind<IVfpOdbcConnection>(this.Connection=this._InstanceFactory.CreateInstance<VfpOdbcConnection>(x => x("connectionString", _args.ConnectionString)));
             this.Connection.Open();
 
             #endregion
 
             this.OnDataLoad(EventArgs.Empty);
-        }
-
-        protected override void Dispose(bool disposing) {
-            if(disposing&&this.Connection!=null) {
-                this.Connection.Dispose();
-            }
-            base.Dispose(disposing);
         }
 
         protected virtual void OnDataLoad(EventArgs e) {
@@ -89,21 +84,15 @@ namespace Saraff.VisualFoxpro.Odbc {
             }
         }
 
-        #endregion
-
-        #region Obsolete
-
-        [Obsolete("Необходимо использовать this.Connection.CreateCommand()")]
-        protected OdbcCommand CreateCommand() {
-            return this.Connection.CreateCommand();
+        private IoC.IBinder _Binder {
+            get {
+                return this.GetService(typeof(IoC.IBinder)) as IoC.IBinder;
+            }
         }
 
-        [Obsolete("Необходимо использовать this.Connection.Commit() или this.Connection.Rollback()")]
-        protected void CommitChanges(bool isCommit) {
-            if(isCommit) {
-                this.Connection.Commit();
-            } else {
-                this.Connection.Rollback();
+        private IoC.IInstanceFactory _InstanceFactory {
+            get {
+                return this.GetService(typeof(IoC.IInstanceFactory)) as IoC.IInstanceFactory;
             }
         }
 

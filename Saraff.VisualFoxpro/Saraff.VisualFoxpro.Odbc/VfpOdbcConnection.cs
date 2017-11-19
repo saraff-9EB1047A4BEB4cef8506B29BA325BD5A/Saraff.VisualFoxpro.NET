@@ -33,12 +33,14 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
 using System.Data.Odbc;
+using IoC = Saraff.VisualFoxpro.IoC;
 
 namespace Saraff.VisualFoxpro.Odbc {
 
     public sealed class VfpOdbcConnection:Component,IVfpOdbcConnection,IDisposable {
         private OdbcConnection _connection;
 
+        [IoC.ServiceRequired]
         public VfpOdbcConnection(string connectionString) {
             this._connection=new OdbcConnection(this.ConnectionString=connectionString);
         }
