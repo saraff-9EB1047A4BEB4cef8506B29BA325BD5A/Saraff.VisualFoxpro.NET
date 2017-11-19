@@ -6,8 +6,8 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 using Saraff.AxHost;
-using IoC=Saraff.VisualFoxpro.IoC;
 using Saraff.VisualFoxpro.Odbc;
+using IoC=Saraff.VisualFoxpro.IoC;
 using Objects=Saraff.VisualFoxpro.Externals.Objects;
 
 namespace Saraff.VisualFoxpro.Samples {

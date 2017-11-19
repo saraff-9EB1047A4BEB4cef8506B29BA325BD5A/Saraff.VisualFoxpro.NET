@@ -31,8 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Saraff.AxHost, Version=1.0.3.441, Culture=neutral, PublicKeyToken=c55b64136026b50f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Saraff.AxHost.1.0.3.441\lib\net20\Saraff.AxHost.dll</HintPath>
+    <Reference Include="Saraff.AxHost, Version=1.0.5.588, Culture=neutral, PublicKeyToken=c55b64136026b50f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Saraff.AxHost.1.0.5.588\lib\net20\Saraff.AxHost.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

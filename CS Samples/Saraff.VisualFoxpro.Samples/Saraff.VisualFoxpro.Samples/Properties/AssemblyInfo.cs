@@ -69,7 +69,6 @@ using Core=Saraff.VisualFoxpro.Samples.Core;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
-[assembly: RequiredFile("Saraff.VisualFoxpro.dll")]
 [assembly: RequiredFile("Saraff.VisualFoxpro.Externals.dll")]
 [assembly: RequiredFile("Saraff.VisualFoxpro.Odbc.dll")]
 

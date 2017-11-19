@@ -1,9 +1,0 @@
-[version] 
-signature="$CHICAGO$" 
-AdvancedINF=2.0 
-
-[Setup Hooks] 
-install=install 
-
-[install] 
-run=msiexec.exe /package """%EXTRACT_DIR%\Saraff.AxHost.Setup.msi""" /qn

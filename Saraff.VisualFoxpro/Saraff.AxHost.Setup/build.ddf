@@ -1,4 +1,0 @@
-.Set DiskDirectoryTemplate=cab
-.Set CabinetNameTemplate=Saraff.AxHost.cab
-msi\Saraff.AxHost.Setup.msi
-Saraff.AxHost.inf
