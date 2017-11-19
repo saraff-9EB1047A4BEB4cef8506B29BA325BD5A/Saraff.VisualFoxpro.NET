@@ -31,8 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Saraff.AxHost, Version=1.0.3.441, Culture=neutral, PublicKeyToken=c55b64136026b50f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Saraff.AxHost.1.0.3.441\lib\net20\Saraff.AxHost.dll</HintPath>
+    <Reference Include="Saraff.AxHost, Version=1.0.5.588, Culture=neutral, PublicKeyToken=c55b64136026b50f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Saraff.AxHost.1.0.5.588\lib\net20\Saraff.AxHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Saraff.IoC, Version=1.0.8.611, Culture=neutral, PublicKeyToken=941762d7e2681ad9, processorArchitecture=MSIL">
+      <HintPath>..\packages\Saraff.IoC.1.0.8.611\lib\net20\Saraff.IoC.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -48,10 +52,21 @@
     <Compile Include="Core\VfpEventHandlerProxy.cs" />
     <Compile Include="Core\Win32.cs" />
     <Compile Include="ErrorHandlerRequiredEventArgs.cs" />
-    <Compile Include="IErrorHandler.cs" />
+    <Compile Include="IoC\_Configuration.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="IoC\BindServiceAttribute.cs" />
-    <Compile Include="IoC\ServiceContainer.cs" />
+    <Compile Include="IoC\IBinder.cs" />
+    <Compile Include="IErrorHandler.cs" />
+    <Compile Include="IoC\IContextBinder.cs" />
+    <Compile Include="IoC\IInstanceFactory.cs" />
     <Compile Include="IoC\ServiceRequiredAttribute.cs" />
+    <Compile Include="IoC\_Binder.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="IoC\_InstanceFactory.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="VfpApplicationComponent.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -81,11 +96,11 @@
     <Compile Include="VfpProcessedAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="COPYING.LESSER.txt" />
-    <Content Include="COPYING.txt" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <Content Include="COPYING.LESSER.txt" />
+    <Content Include="COPYING.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -32,20 +32,23 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.ComponentModel;
 using System.IO;
 using Saraff.AxHost;
 using Saraff.VisualFoxpro.Core;
 using Saraff.VisualFoxpro.IoC;
+using _IoC = Saraff.IoC;
 
 namespace Saraff.VisualFoxpro {
 
     public class VfpApplicationComponent:ApplicationComponent {
-        private ServiceContainer _services = new ServiceContainer();
-        private ProxyService _proxy;
+        private _IoC.ServiceContainer _services=new _IoC.ServiceContainer();
 
         public VfpApplicationComponent() {
-            this._services.Bind(typeof(IProxy),this._proxy = new ProxyService(this._ExternalInvokeHandler));
-            this._services.Add(this._proxy);
+            this._services.Bind<_IoC.IConfiguration, _Configuration>();
+            this._services.Bind<IInstanceFactory>(this._services.CreateInstance<_InstanceFactory>(x => x("container", this._services)));
+            this._services.Bind<IBinder>(this._services.CreateInstance<_Binder>(x => x("container", this._services)));
+            this._services.Bind<IProxy>(this._services.CreateInstance<ProxyService>(x => x("handler", new EventHandler(this._ExternalInvokeHandler))));
 
             this.Externals=new Dictionary<Type, _VfpExternalComponent>();
 
@@ -58,7 +61,6 @@ namespace Saraff.VisualFoxpro {
             #endregion
 
             this._services.Load(this.GetType().Assembly);
-            this.OnServiceContainerInit(this._services);
         }
 
         protected override void Construct(ReadOnlyCollection<object> args) {
@@ -72,6 +74,11 @@ namespace Saraff.VisualFoxpro {
 
         protected override void Dispose(bool disposing) {
             if(disposing && this._services != null) {
+                foreach(IDisposable _component in this._services.Components) {
+                    if(_component is _VfpExternalComponent) {
+                        _component.Dispose();
+                    }
+                }
                 this._services.Dispose();
             }
             base.Dispose(disposing);
@@ -88,19 +95,12 @@ namespace Saraff.VisualFoxpro {
         /// service.
         /// </returns>
         protected override object GetService(Type service) {
-            foreach(ServiceRequiredAttribute _attr in this.GetType().GetCustomAttributes(typeof(ServiceRequiredAttribute),false)) {
+            foreach(ServiceRequiredAttribute _attr in this.GetType().GetCustomAttributes(typeof(ServiceRequiredAttribute),true)) {
                 for(var _provider = this._services as IServiceProvider; _provider != null && _attr.Service == service;) {
                     return _provider.GetService(service);
                 }
             }
             return base.GetService(service);
-        }
-
-        /// <summary>
-        /// Вызывается в момент инициализации IoC-контейнера.
-        /// </summary>
-        /// <param name="container">IoC-контейнер.</param>
-        protected virtual void OnServiceContainerInit(ServiceContainer container) {
         }
 
         protected void ErrorMessageBox(Exception ex) {
@@ -165,13 +165,11 @@ namespace Saraff.VisualFoxpro {
         #region События
 
         [ApplicationProcessed]
-        [System.ComponentModel.Browsable(false)]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [Browsable(false),EditorBrowsable(EditorBrowsableState.Never)]
         public event EventHandler VfpExternalRequired_6BD50AADD7FD4919A200FBC48E9CC28A;
 
         [ApplicationProcessed]
-        [System.ComponentModel.Browsable(false)]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [Browsable(false),EditorBrowsable(EditorBrowsableState.Never)]
         public event EventHandler VfpErrorHandlerRequired_14173D436F344779B521DC61F955F7BD;
 
         #endregion

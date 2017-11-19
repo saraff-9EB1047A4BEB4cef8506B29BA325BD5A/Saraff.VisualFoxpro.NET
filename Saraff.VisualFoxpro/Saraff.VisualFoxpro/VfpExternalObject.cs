@@ -63,7 +63,9 @@ namespace Saraff.VisualFoxpro {
         protected override void Dispose(bool disposing) {
             if(disposing) {
                 try {
-                    this.Release();
+                    if(this.IsNeedRelease) {
+                        this.Release();
+                    }
                 } catch {
                 }
             }
@@ -77,6 +79,12 @@ namespace Saraff.VisualFoxpro {
         protected virtual string Instance {
             get;
             private set;
+        }
+
+        protected virtual bool IsNeedRelease {
+            get {
+                return true;
+            }
         }
     }
 }
