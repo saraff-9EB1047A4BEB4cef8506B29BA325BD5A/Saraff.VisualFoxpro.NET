@@ -33,11 +33,9 @@
   <ItemGroup>
     <Reference Include="Saraff.AxHost, Version=1.0.5.588, Culture=neutral, PublicKeyToken=c55b64136026b50f, processorArchitecture=MSIL">
       <HintPath>..\packages\Saraff.AxHost.1.0.5.588\lib\net20\Saraff.AxHost.dll</HintPath>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="Saraff.IoC, Version=1.0.8.611, Culture=neutral, PublicKeyToken=941762d7e2681ad9, processorArchitecture=MSIL">
-      <HintPath>..\packages\Saraff.IoC.1.0.8.611\lib\net20\Saraff.IoC.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Saraff.IoC, Version=1.0.12.712, Culture=neutral, PublicKeyToken=941762d7e2681ad9, processorArchitecture=MSIL">
+      <HintPath>..\packages\Saraff.IoC.1.0.12.712\lib\net20\Saraff.IoC.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -45,13 +43,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Collections\EnumerableUtil.cs" />
+    <Compile Include="Common\Collections\SortedBindingList.cs" />
+    <Compile Include="Common\Delegates.cs" />
+    <Compile Include="Common\Serializator.cs" />
     <Compile Include="Core\IProxy.cs" />
     <Compile Include="Core\ProxyService.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Core\VfpEventHandlerProxy.cs" />
-    <Compile Include="Core\Win32.cs" />
     <Compile Include="ErrorHandlerRequiredEventArgs.cs" />
+    <Compile Include="IoC\IListener.cs" />
+    <Compile Include="IoC\ProxyRequiredAttribute.cs" />
     <Compile Include="IoC\_Configuration.cs">
       <SubType>Component</SubType>
     </Compile>

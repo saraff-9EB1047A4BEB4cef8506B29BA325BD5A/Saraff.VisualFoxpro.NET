@@ -44,6 +44,21 @@
     <Compile Include="ConnectionInfoAttribute.cs" />
     <Compile Include="ConnectionRequiredEventArgs.cs" />
     <Compile Include="DbObjectRequiredAttribute.cs" />
+    <Compile Include="Entity\ColumnAttribute.cs" />
+    <Compile Include="Entity\Core\DataService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Entity\Core\DbService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Entity\DatabaseGeneratedMethod.cs" />
+    <Compile Include="Entity\ForeignKeyAttribute.cs" />
+    <Compile Include="Entity\IDataService.cs" />
+    <Compile Include="Entity\IDbService.cs" />
+    <Compile Include="Entity\IQueryListener.cs" />
+    <Compile Include="Entity\KeyAttribute.cs" />
+    <Compile Include="Entity\TableAttribute.cs" />
+    <Compile Include="IDataLoader.cs" />
     <Compile Include="OdbcApplicationComponent.cs">
       <SubType>Component</SubType>
     </Compile>

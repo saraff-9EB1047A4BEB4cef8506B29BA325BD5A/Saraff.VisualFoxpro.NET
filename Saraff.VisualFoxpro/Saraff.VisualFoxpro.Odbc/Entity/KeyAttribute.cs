@@ -30,74 +30,37 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Text;
-using System.Data.Odbc;
-using Saraff.AxHost;
 
-namespace Saraff.VisualFoxpro.Odbc {
+namespace Saraff.VisualFoxpro.Odbc.Entity {
 
-    public class OdbcApplicationComponent:VfpApplicationComponent {
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
+    public sealed class KeyAttribute : Attribute {
 
-        public OdbcApplicationComponent() {
+        public KeyAttribute() {
+            this.DatabaseGenerated = DatabaseGeneratedMethod.MaxInc;
+            this.Size = 20;
+            this.Order = 1;
         }
 
-        protected override void Construct(ReadOnlyCollection<object> args) {
-            base.Construct(args);
-
-            #region Настройка подключения
-
-            var _args=new ConnectionRequiredEventArgs();
-            this.OnConnectionRequired(_args);
-            this._Binder.Bind<IVfpOdbcConnection>(this.Connection=this._InstanceFactory.CreateInstance<VfpOdbcConnection>(x => x("connectionString", _args.ConnectionString)));
-            this.Connection.Open();
-
-            #endregion
-
-            this._DataLoader?.Load(this.ComponentParameters);
-            this.OnDataLoad(EventArgs.Empty);
-        }
-
-        protected virtual void OnDataLoad(EventArgs e) => this.DataLoad?.Invoke(this, e);
-
-        private void OnConnectionRequired(ConnectionRequiredEventArgs e) => this.VfpConnectionRequired_448FCAB8513A4E5996E775521DC76FD5?.Invoke(this, e);
-
-        #region Свойства
-
-        protected VfpOdbcConnection Connection {
-            get;
-            private set;
-        }
-
-        protected string ConnectionString => this.GetType().GetCustomAttributes(typeof(ConnectionInfoAttribute), false).Length > 0 ? this.Connection.ConnectionString : null;
-
-        [IoC.ServiceRequired]
-        private IoC.IBinder _Binder {
+        public DatabaseGeneratedMethod DatabaseGenerated {
             get;
             set;
         }
 
-        [IoC.ServiceRequired]
-        private IoC.IInstanceFactory _InstanceFactory {
+        public string Expresion {
             get;
             set;
         }
 
-        [IoC.ServiceRequired]
-        private IDataLoader _DataLoader {
+        public int Size {
             get;
             set;
         }
 
-        #endregion
-
-        #region События
-
-        [ApplicationProcessed]
-        public event EventHandler VfpConnectionRequired_448FCAB8513A4E5996E775521DC76FD5;
-
-        public event EventHandler DataLoad;
-
-        #endregion
+        public int Order {
+            get;
+            set;
+        }
     }
 }

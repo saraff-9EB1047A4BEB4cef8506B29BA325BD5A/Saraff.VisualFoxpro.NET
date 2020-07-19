@@ -30,74 +30,21 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Text;
-using System.Data.Odbc;
-using Saraff.AxHost;
 
-namespace Saraff.VisualFoxpro.Odbc {
-
-    public class OdbcApplicationComponent:VfpApplicationComponent {
-
-        public OdbcApplicationComponent() {
-        }
-
-        protected override void Construct(ReadOnlyCollection<object> args) {
-            base.Construct(args);
-
-            #region Настройка подключения
-
-            var _args=new ConnectionRequiredEventArgs();
-            this.OnConnectionRequired(_args);
-            this._Binder.Bind<IVfpOdbcConnection>(this.Connection=this._InstanceFactory.CreateInstance<VfpOdbcConnection>(x => x("connectionString", _args.ConnectionString)));
-            this.Connection.Open();
-
-            #endregion
-
-            this._DataLoader?.Load(this.ComponentParameters);
-            this.OnDataLoad(EventArgs.Empty);
-        }
-
-        protected virtual void OnDataLoad(EventArgs e) => this.DataLoad?.Invoke(this, e);
-
-        private void OnConnectionRequired(ConnectionRequiredEventArgs e) => this.VfpConnectionRequired_448FCAB8513A4E5996E775521DC76FD5?.Invoke(this, e);
-
-        #region Свойства
-
-        protected VfpOdbcConnection Connection {
-            get;
-            private set;
-        }
-
-        protected string ConnectionString => this.GetType().GetCustomAttributes(typeof(ConnectionInfoAttribute), false).Length > 0 ? this.Connection.ConnectionString : null;
-
-        [IoC.ServiceRequired]
-        private IoC.IBinder _Binder {
-            get;
-            set;
-        }
-
-        [IoC.ServiceRequired]
-        private IoC.IInstanceFactory _InstanceFactory {
-            get;
-            set;
-        }
-
-        [IoC.ServiceRequired]
-        private IDataLoader _DataLoader {
-            get;
-            set;
-        }
-
-        #endregion
-
-        #region События
-
-        [ApplicationProcessed]
-        public event EventHandler VfpConnectionRequired_448FCAB8513A4E5996E775521DC76FD5;
-
-        public event EventHandler DataLoad;
-
-        #endregion
-    }
+namespace Saraff.VisualFoxpro.Common {
+    public delegate void Action();
+    public delegate void Action<T>(T arg);
+    public delegate void Action<T1,T2>(T1 arg1,T2 arg2);
+    public delegate void Action<T1,T2,T3>(T1 arg1,T2 arg2,T3 arg3);
+    public delegate void Action<T1,T2,T3,T4>(T1 arg1,T2 arg2,T3 arg3,T4 arg4);
+    public delegate void Action<T1,T2,T3,T4,T5>(T1 arg1,T2 arg2,T3 arg3,T4 arg4,T5 arg5);
+    public delegate void Action<T1,T2,T3,T4,T5,T6>(T1 arg1,T2 arg2,T3 arg3,T4 arg4,T5 arg5,T6 arg6);
+    public delegate TResult Func<TResult>();
+    public delegate TResult Func<T,TResult>(T arg);
+    public delegate TResult Func<T1,T2,TResult>(T1 arg1,T2 arg2);
+    public delegate TResult Func<T1,T2,T3,TResult>(T1 arg1,T2 arg2,T3 arg3);
+    public delegate TResult Func<T1,T2,T3,T4,TResult>(T1 arg1,T2 arg2,T3 arg3,T4 arg4);
+    public delegate TResult Func<T1,T2,T3,T4,T5,TResult>(T1 arg1,T2 arg2,T3 arg3,T4 arg4,T5 arg5);
+    public delegate TResult Func<T1,T2,T3,T4,T5,T6,TResult>(T1 arg1,T2 arg2,T3 arg3,T4 arg4,T5 arg5,T6 arg6);
 }

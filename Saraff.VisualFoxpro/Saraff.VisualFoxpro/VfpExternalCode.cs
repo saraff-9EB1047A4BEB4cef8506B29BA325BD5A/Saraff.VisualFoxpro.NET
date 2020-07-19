@@ -36,8 +36,8 @@ namespace Saraff.VisualFoxpro {
 
     public abstract class VfpExternalCode:_VfpExternalComponent {
 
-        public virtual void Invoke(params object[] args) {
-            this.InvokeCodeCore(this.VfpCode, args);
+        public virtual object Invoke(params object[] args) {
+            return this.InvokeCodeCore(this.VfpCode, args);
         }
 
         protected abstract string VfpCode {

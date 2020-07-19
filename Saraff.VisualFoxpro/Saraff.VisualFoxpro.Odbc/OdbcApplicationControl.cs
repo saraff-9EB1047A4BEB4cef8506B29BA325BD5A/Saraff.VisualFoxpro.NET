@@ -36,8 +36,6 @@ using Saraff.AxHost;
 
 namespace Saraff.VisualFoxpro.Odbc {
 
-    [IoC.ServiceRequired(Service = typeof(IoC.IBinder))]
-    [IoC.ServiceRequired(Service = typeof(IoC.IInstanceFactory))]
     public class OdbcApplicationControl : VfpApplicationControl {
 
         public OdbcApplicationControl() {
@@ -65,33 +63,20 @@ namespace Saraff.VisualFoxpro.Odbc {
 
             #endregion
 
+            this._DataLoader?.Load(this.ComponentParameters);
             this.OnDataLoad(EventArgs.Empty);
         }
 
-        protected virtual void OnDataLoad(EventArgs e) {
-            if(this.DataLoad!=null) {
-                this.DataLoad(this, e);
-            }
-        }
+        protected virtual void OnDataLoad(EventArgs e) => this.DataLoad?.Invoke(this, e);
 
         protected virtual void OnToolButtonClick(ApplicationToolButtonEventArgs e) {
         }
 
-        protected void SetToolBarButtonsState(VfpToolButons buttons, bool isEnable) {
-            this.OnToolButonsStateChangeRequired(new VfpToolButonsStateChangeRequiredEventArgs(buttons, isEnable));
-        }
+        protected void SetToolBarButtonsState(VfpToolButons buttons, bool isEnable) => this.OnToolButonsStateChangeRequired(new VfpToolButonsStateChangeRequiredEventArgs(buttons, isEnable));
 
-        private void OnConnectionRequired(ConnectionRequiredEventArgs e) {
-            if(this.VfpConnectionRequired_ED37CBB9BB88499CA2D2633826835D7C!=null) {
-                this.VfpConnectionRequired_ED37CBB9BB88499CA2D2633826835D7C(this, e);
-            }
-        }
+        private void OnConnectionRequired(ConnectionRequiredEventArgs e) => this.VfpConnectionRequired_ED37CBB9BB88499CA2D2633826835D7C?.Invoke(this, e);
 
-        private void OnToolButonsStateChangeRequired(VfpToolButonsStateChangeRequiredEventArgs e) {
-            if(this.VfpToolButonsStateChangeRequired_0C9678D80B9045AFA077AF524727F4B0!=null) {
-                this.VfpToolButonsStateChangeRequired_0C9678D80B9045AFA077AF524727F4B0(this, e);
-            }
-        }
+        private void OnToolButonsStateChangeRequired(VfpToolButonsStateChangeRequiredEventArgs e) => this.VfpToolButonsStateChangeRequired_0C9678D80B9045AFA077AF524727F4B0?.Invoke(this, e);
 
         #region Свойства
 
@@ -100,22 +85,24 @@ namespace Saraff.VisualFoxpro.Odbc {
             private set;
         }
 
-        protected string ConnectionString {
-            get {
-                return this.GetType().GetCustomAttributes(typeof(ConnectionInfoAttribute), false).Length>0?this.Connection.ConnectionString:null;
-            }
-        }
+        protected string ConnectionString => this.GetType().GetCustomAttributes(typeof(ConnectionInfoAttribute), false).Length > 0 ? this.Connection.ConnectionString : null;
 
+        [IoC.ServiceRequired]
         private IoC.IBinder _Binder {
-            get {
-                return this.GetService(typeof(IoC.IBinder)) as IoC.IBinder;
-            }
+            get;
+            set;
         }
 
+        [IoC.ServiceRequired]
         private IoC.IInstanceFactory _InstanceFactory {
-            get {
-                return this.GetService(typeof(IoC.IInstanceFactory)) as IoC.IInstanceFactory;
-            }
+            get;
+            set;
+        }
+
+        [IoC.ServiceRequired]
+        private IDataLoader _DataLoader {
+            get;
+            set;
         }
 
         #endregion
